@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "lista.h"
+
+typedef struct no
+{
+	void* info;
+	struct no* prox;
+	struct no* ant;
+}No;
+
+struct lista
+{
+	int tam;
+	No* ini;
+	No* fin;
+	No* corr;
+};
+
+Lista* lst_cria(void)
+{
+	Lista* lst = (Lista*)malloc(sizeof(Lista));
+
+	if (lst == NULL)
+	{
+		printf("Error while dynamically allocating memory for \"lst\"!");
+		exit(1);
+	}
+
+	lst->tam = 0;
+	lst->ini = NULL;
+	lst->fin = NULL;
+	lst->corr = NULL;
+
+	return lst;
+}
+
+int lst_vazia(Lista* list)
+{
+	if (list->tam == 0)
+	{
+		return 1;
+	}
+
+	return 0;
+}
+
+void lst_insIni(Lista* list, void* data)
+{
+	No* temp = (No*)malloc(sizeof(No));
+	temp->info = data;
+	temp->prox = NULL;
+	temp->ant = NULL;
+
+	if (list->ini == NULL)
+	{
+		list->ini = temp;
+		list->fin = temp;
+	}
+	else
+	{
+		//provavelmente substituir current por lst->corr e deletar "No* current;"
+		No* current;
+		current = list->ini;
+		temp->prox = current;
+		current->ant = temp;
+		list->ini = temp;
+	}
+	list->tam++;
+}
+
+void lst_insFin(Lista *list, void *data){
+	No* temp = (No*) malloc(sizeof(No));
+	temp->info = data;
+	temp->prox = NULL;
+	temp->ant= NULL;
+	
+	if (list->ini == NULL){
+		list->ini = temp;
+		list->fin = temp;
+	}
+	else{
+		list->corr = list->fin;
+		temp->ant = list->corr;
+		list->corr->prox = temp;
+		list->fin = temp;
+	}
+	list->tam++;
+}
+
+
+	
